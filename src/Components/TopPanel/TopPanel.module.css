@@ -1,0 +1,6 @@
+#top_panel {
+    display: flex;
+}
+#top_panel img {
+    width: 100px;
+}

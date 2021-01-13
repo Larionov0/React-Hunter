@@ -1,0 +1,5 @@
+.cell {
+    background-color: rgb(191, 241, 212);
+    border: 1px solid black;
+    position: absolute;
+}
