@@ -1,13 +1,13 @@
 import { Hero, Kurka } from "./classes";
 
 let n = 15,
-  m = 20;
+  m = 30;
 
 let initial_state = {
   n: n,
   m: m,
-  width: 2000,
-  height: 1000,
+  width: 1350,
+  height: 450,
   hero: new Hero("Hunter", 10, [2, 2], n, m),
   animals: [
     new Kurka("Ryaba", 3, [5, 5], n, m),
@@ -33,7 +33,6 @@ function after_move(state) {
 }
 
 function check_animals_spawn(state) {
-  debugger
   for (let animal_class of state.animals_classes) {
     if (state.round % animal_class.spawn_delay === 0) {
       animal_class.spawn(state);
@@ -44,6 +43,7 @@ function check_animals_spawn(state) {
 
 const MAKE_MOVE = "MAKE_MOVE";
 const MAKE_SHOT = "MAKE_SHOT";
+const USE_SKILL = "USE_SKILL";
 
 
 const game_reducer = (state = initial_state, action) => {
@@ -55,6 +55,9 @@ const game_reducer = (state = initial_state, action) => {
       return { ...state };
     case MAKE_SHOT:
       break;
+    case USE_SKILL:
+      const skill = action.skill
+      return skill.run(state)
     default:
       return state;
   }
@@ -64,6 +67,12 @@ export const make_move_AC = (side) => {
   return { type: MAKE_MOVE, side: side };
 };
 
+export const make_shot_AC = () => {
+  return {type: MAKE_SHOT, }
+}
 
+export const use_skill_AC = (skill) => {
+  return {type: USE_SKILL, skill: skill}
+}
 
 export default game_reducer;

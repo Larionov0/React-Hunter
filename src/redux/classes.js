@@ -3,6 +3,7 @@ import {
   arraysEqual,
   removeItem,
   randomInteger,
+  calc_distance
 } from "../functions/main";
 
 class GameObject {
@@ -45,6 +46,21 @@ class GameObject {
   }
 }
 
+
+class Skill {
+  constructor (name, description, img_src, cast_function) {
+    this.name = name
+    this.description = description
+    this.img_src = img_src
+    this.cast_function = cast_function
+  }
+
+  run(state) {
+    // this function shoud return new state
+    return this.cast_function(state)
+  }
+}
+
 class Hero extends GameObject {
   img_src =
     "https://wonder-day.com/wp-content/uploads/2020/10/wonder-day-among-us-21.png";
@@ -53,6 +69,24 @@ class Hero extends GameObject {
     this.name = name;
     this.hp = this.max_hp = hp;
     this.details = 0;
+    this.skills = this.create_base_skills()
+  }
+
+  create_base_skills() {
+    const s1_f = (state) => {
+      const hero = state.hero;
+      const animals = state.animals;
+
+      for (let animal of animals) {
+        if (calc_distance(animal.coords, hero.coords) < 1.6) {
+          animal.die(animals)
+        }
+      }
+      return {...state}
+    }
+    const skill1 = new Skill('Бомба', 'взрывается в радиусе 1', '', s1_f)
+    const skill2 = new Skill('Рывок', 'игрок перемещается на 2 кл', '')
+    return [skill1, skill2]
   }
 
   make_move(side) {
@@ -95,6 +129,10 @@ class Animal extends GameObject {
     this.make_move_by_side(side);
   }
 
+  die (animals) {
+    removeItem(animals, this);
+  }
+
   spawn(state) {}
 }
 
@@ -115,4 +153,4 @@ class Kurka extends Animal {
   }
 }
 
-export { Hero, Kurka };
+export { Hero, Kurka, Skill };

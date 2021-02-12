@@ -25,4 +25,8 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
-export { random_choice, arraysEqual, removeItem, randomInteger };
+function calc_distance (point1, point2) {
+  return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
+}
+
+export { random_choice, arraysEqual, removeItem, randomInteger, calc_distance };

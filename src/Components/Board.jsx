@@ -5,7 +5,9 @@ import Cell from './Cell/Cell';
 
 class Board extends Component {
     key_down = (event) => {
-        this.props.make_move(event.key)
+        console.log(event.key)
+        if (['w', 'a', 's', 'd'].includes(event.key))
+            this.props.make_move(event.key)
     }
 
     componentDidMount() {
@@ -47,7 +49,7 @@ class Board extends Component {
 
     render() {
         return (
-            <div id={css.board} onKeyPress={this.key_down}>
+            <div id={css.board}>
                 {this.gen_cells()}
             </div>
         )
